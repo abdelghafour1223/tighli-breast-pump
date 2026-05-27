@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شكراً لطلبك — Tighli™</title>
+  <link rel="stylesheet" href="css/thank-you.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="thank-you-page">
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="thank-you-container">
+      <!-- Success Icon -->
+      <div class="success-icon-wrapper">
+        <div class="success-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="12" fill="#4CAF50"/>
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="white"/>
+          </svg>
+        </div>
+        <div class="success-ring"></div>
+      </div>
+
+      <!-- Main Message -->
+      <h1 class="thank-you-title">شكراً على طلبك! 🎉</h1>
+      <p class="thank-you-subtitle">طلبك تسجل بنجاح وغادي يتوصلو بيك قريب</p>
+
+      <!-- Order Details Card -->
+      <div class="order-details-card">
+        <div class="order-details-header">
+          <h2>تفاصيل الطلب</h2>
+          <span class="order-id" id="orderId">TG-XXXXXX</span>
+        </div>
+
+        <div class="order-details-body">
+          <div class="detail-row">
+            <span class="detail-label">المنتج</span>
+            <span class="detail-value" id="orderProduct">مضخة الحليب اللاسلكية Tighli</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">الكمية</span>
+            <span class="detail-value" id="orderQty">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">المبلغ الإجمالي</span>
+            <span class="detail-value detail-price" id="orderTotal">— درهم</span>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-row">
+            <span class="detail-label">الإسم</span>
+            <span class="detail-value" id="orderName">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">العنوان</span>
+            <span class="detail-value" id="orderAddress">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">رقم الهاتف</span>
+            <span class="detail-value" id="orderPhone" dir="ltr">—</span>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-row">
+            <span class="detail-label">طريقة الدفع</span>
+            <span class="detail-value payment-method">💳 الدفع عند الإستلام</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- What's Next -->
+      <div class="whats-next">
+        <h3>وش غادي يوقع دابا؟</h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>تأكيد الطلب</h4>
+              <p>غادي نتواصلو معاك عبر الهاتف باش نأكدو الطلب ديالك</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>تجهيز و شحن</h4>
+              <p>غادي نجهزو الطلب ديالك ونسيفطوه ليك فأقرب وقت</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>الإستلام و الدفع</h4>
+              <p>غادي توصلك الطرد وخلصي غير ملي تتأكدي من المنتج</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="support-section">
+        <p>عندك أي سؤال؟ <a href="index.html">رجعي للصفحة الرئيسية</a> أو تواصلي معانا</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Load order data from localStorage
+      var orderDataStr = localStorage.getItem('tighli_order');
+
+      if (!orderDataStr) {
+        // No order data, redirect to home
+        window.location.href = 'index.html';
+        return;
+      }
+
+      var orderData = JSON.parse(orderDataStr);
+
+      // Populate order details
+      var qtyLabels = { 1: '1 قطعة', 2: '2 قطع', 3: '3 قطع' };
+
+      document.getElementById('orderId').textContent = orderData.orderId;
+      document.getElementById('orderProduct').textContent = orderData.product;
+      document.getElementById('orderQty').textContent = qtyLabels[orderData.qty] || orderData.qty + ' قطع';
+      document.getElementById('orderTotal').textContent = orderData.total + ' درهم';
+      document.getElementById('orderName').textContent = orderData.fullName;
+      document.getElementById('orderAddress').textContent = orderData.fullAddress;
+      document.getElementById('orderPhone').textContent = orderData.phoneNumber;
+
+      // Clear the stored data after displaying
+      localStorage.removeItem('tighli_order');
+
+      // Launch confetti
+      launchConfetti();
+    });
+
+    // Simple confetti animation
+    function launchConfetti() {
+      var canvas = document.getElementById('confettiCanvas');
+      var ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var particles = [];
+      var colors = ['#ef4a65', '#cb6387', '#4CAF50', '#FFD700', '#FF6B6B', '#f06292', '#81C784'];
+
+      for (var i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedX: (Math.random() - 0.5) * 4,
+          speedY: Math.random() * 3 + 2,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      var startTime = Date.now();
+      var duration = 4000;
+
+      function animate() {
+        var elapsed = Date.now() - startTime;
+        if (elapsed > duration) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var fadeStart = duration * 0.6;
+
+        particles.forEach(function (p) {
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.rotation += p.rotationSpeed;
+
+          if (elapsed > fadeStart) {
+            p.opacity = 1 - ((elapsed - fadeStart) / (duration - fadeStart));
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = Math.max(0, p.opacity);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+  </script>
+</body>
+</html>
