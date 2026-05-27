@@ -3526,9 +3526,69 @@
           cursor: pointer;
           font-size: 12px;
         ">✕ Discard</button>
+    <!-- Bulletproof Sticky Bottom Bar Style (Bypasses caching completely) -->
+    <style>
+      .sticky-bottom-bar {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+        padding: 12px 16px !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.08) !important;
+        transform: none !important;
+        transition: none !important;
+        direction: rtl !important;
+      }
+      #stickyCTAButton {
+        width: 100% !important;
+        max-width: 480px !important;
+        background: #121212 !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 14px 24px !important;
+        border-radius: 50px !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+        animation: cta-pulse-inline 2s infinite !important;
+        text-decoration: none !important;
+        font-family: inherit !important;
+        outline: none !important;
+      }
+      #stickyCTAButton:hover {
+        background: #222222 !important;
+        transform: scale(1.02) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+      }
+      #stickyCTAButton:active {
+        transform: scale(0.98) !important;
+      }
+      @keyframes cta-pulse-inline {
+        0% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
+        50% { box-shadow: 0 4px 25px rgba(203, 99, 135, 0.4); }
+        100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
+      }
+      body {
+        padding-bottom: 80px !important;
+      }
+    </style>
+
     <!-- Sticky Bottom Bar -->
     <div class="sticky-bottom-bar" id="stickyBottomBar">
-      <button id="stickyCTAButton">
+      <button id="stickyCTAButton" onclick="var target = document.querySelector('.offer-bundle-inline'); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(function() { var nameInput = document.getElementById('fullName'); if (nameInput) nameInput.focus(); }, 800); }">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;">
           <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
