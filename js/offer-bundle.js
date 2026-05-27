@@ -17,24 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     orderPriceInput.value = '329';
   }
 
-  // Scroll listener for the sticky bottom bar
-  function handleScroll() {
-    if (!stickyBar) return;
 
-    const scrollY = window.scrollY || window.pageYOffset;
-    const showSticky = scrollY > 200;
-
-    if (showSticky) {
-      stickyBar.style.transform = 'translateY(0)';
-    } else {
-      stickyBar.style.transform = 'translateY(100%)';
-    }
-  }
-
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('resize', handleScroll);
-  // Initial check on load
-  setTimeout(handleScroll, 200);
 
   // Click listener for sticky CTA button to scroll to inline offers
   if (stickyCTAButton && offerSection) {
