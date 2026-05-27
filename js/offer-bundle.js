@@ -153,6 +153,29 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   });
+
+  // Sticky Bottom Bar Visibility Controller (Always shows at bottom on mobile, hides only when checkout form is visible)
+  if (stickyBar && offerSection) {
+    var handleScroll = function () {
+      var rect = offerSection.getBoundingClientRect();
+      var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      
+      // Check if checkout form is visible in viewport
+      // If the checkout section is currently on-screen, hide the floating sticky bar
+      var isFormVisible = (rect.top < windowHeight - 50 && rect.bottom > 50);
+      
+      if (isFormVisible) {
+        stickyBar.classList.add('hidden');
+      } else {
+        stickyBar.classList.remove('hidden');
+      }
+    };
+
+    // Add immediate check and listen to scroll/resize events
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+  }
 });
 
 // Shake animation
